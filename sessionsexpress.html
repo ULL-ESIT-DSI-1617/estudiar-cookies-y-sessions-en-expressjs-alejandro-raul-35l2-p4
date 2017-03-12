@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>6. Gh-Pages y Gulpfile · GitBook</title>
+        <title>11. Sessions en ExpressJS · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.2">
@@ -57,10 +57,8 @@
     <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="pandoc.html" />
     
-    
-    <link rel="prev" href="markdowngitbook.html" />
+    <link rel="prev" href="cookies.html" />
     
 
     </head>
@@ -391,7 +389,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="." >6. Gh-Pages y Gulpfile</a>
+        <a href="." >11. Sessions en ExpressJS</a>
     </h1>
 </div>
 
@@ -406,22 +404,117 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="gh-pages-y-gulpfile">Gh-Pages y Gulpfile</h1>
-<p>Gulp es un conjunto de herramientas que nos ayudan a automatizar tareas en nuestro proceso de desarrollo, adem&#xE1;s se puede utilizar con diversos lenguajes y plataformas, esto lo utilizaremos para automatizar las tareas de despliegue de nuestro libro en <em>gh-pages</em>.</p>
-<p>Para realizar el despliegue de un libro en Github, lo que hay que  hacer es tener disponible una rama Gh-Pages para mostrar el libro en la Github Pages. En esta pr&#xE1;ctica tal y como se nos indica utilizaremos un gulpfile con la finalidad de automatizar el despliegue en gh-pages.</p>
-<pre><code>gulp.task(&apos;deploy&apos;, shell.task([
-  &apos;npm run deploy&apos;
-]));
+                                <h1 id="sessions-en-expressjs">Sessions en ExpressJS</h1>
+<ul>
+<li><strong>Autentificaci&#xF3;n</strong>: Es el proceso por el cual se verifica que el usuario es quien &#xE9;l dice ser.</li>
+<li><strong>Autorizaci&#xF3;n</strong>: Es el proceso de determinar si el usuario tiene permisos para acceder a los datos o archivos que el ha solicitado.</li>
+</ul>
+<p>A continuaci&#xF3;n se le mostrar&#xE1; un ejemplo muy sencillo de una autentificaci&#xF3;n y una autorizaci&#xF3;n usando <strong>session in express.js</strong>. Hay un punto para loguearte y un punto para desloguearte y un m&#xE9;todo get que te muestra la p&#xE1;gina. Para ver la p&#xE1;gina publicada deber&#xE1;s estar logueado primero, adem&#xE1;s tu identidad ser&#xE1; verificada y guardada en dicha sesi&#xF3;n. Cu&#xE1;ndo te desloguees de la p&#xE1;gina suceder&#xE1; que: te rechazar&#xE1; el acceso borrando tu identidad de la sesi&#xF3;n.</p>
+<pre><code class="lang-jsx=">var express = require(&apos;express&apos;),
+    app = express(),
+    session = require(&apos;express-session&apos;);
+app.use(session({
+    secret: &apos;2C44-4D44-WppQ38S&apos;,
+    resave: true,
+    saveUninitialized: true
+}));
 
-gulp.task(&apos;serve&apos;, shell.task([
-  &apos;gitbook serve --port &apos; + process.env.PORT
-]));
+// Authentication and Authorization Middleware
+var auth = function(req, res, next) {
+  if (req.session &amp;&amp; req.session.user === &quot;amy&quot; &amp;&amp; req.session.admin)
+    return next();
+  else
+    return res.sendStatus(401);
+};
 
-gulp.task(&apos;build&apos;, shell.task([
-  &apos;npm run build&apos;
-]));
-</code></pre><p>Mediante este script solo tendr&#xED;amos que usar el comando <strong>gulp deploy</strong> y ya har&#xED;amos el despliegue del libro, pero tambi&#xE9;n podemos ejecutar los comandos <strong>gulp build</strong> y <strong>gulp serve</strong>, con los que se crean los ficheros html y se despliega el libro en localhost.</p>
-<p>Una vez se ha realizado el despliegue del libro, al realizar el commit y el push correspondiente, se podr&#xE1; visualizar el libro sin ning&#xFA;n tipo de problemas en la GithubPages correspondiente.</p>
+// Login endpoint
+app.get(&apos;/login&apos;, function (req, res) {
+  if (!req.query.username || !req.query.password) {
+    res.send(&apos;login failed&apos;);    
+  } else if(req.query.username === &quot;amy&quot; || req.query.password === &quot;amyspassword&quot;) {
+    req.session.user = &quot;amy&quot;;
+    req.session.admin = true;
+    res.send(&quot;login success!&quot;);
+  }
+});
+
+// Logout endpoint
+app.get(&apos;/logout&apos;, function (req, res) {
+  req.session.destroy();
+  res.send(&quot;logout success!&quot;);
+});
+
+// Get content endpoint
+app.get(&apos;/content&apos;, auth, function (req, res) {
+    res.send(&quot;You can only see this after you&apos;ve logged in.&quot;);
+});
+
+app.listen(3000);
+console.log(&quot;app running at http://localhost:3000&quot;);
+</code></pre>
+<p>Para probar el c&#xF3;digo pondr&#xED;amos en la l&#xED;nea de comandos:</p>
+<pre><code class="lang-bash">npm install express
+npm install express-session
+node session_auth.js &amp;
+</code></pre>
+<p>Adem&#xE1;s tendr&#xED;amos que visitar los siguientes urls en el navegador:</p>
+<pre><code class="lang-html">localhost:3000/content
+localhost:3000/login?username=amy&amp;password=amyspassword
+localhost:3000/content
+localhost:3000/logout
+localhost:3000/content
+</code></pre>
+<p>Se explicar&#xE1; brevemente el funcionamiento del c&#xF3;digo:</p>
+<p>En este primer fragmento de c&#xF3;digo lo que se realiza es que se importan los m&#xF3;dulos de <strong>express</strong> y <strong>express-session</strong>, se crea la aplicaci&#xF3;n de express y se a&#xF1;ade la sesi&#xF3;n a express como un <strong>middleware</strong>. </p>
+<pre><code class="lang-jsx=">var express = require(&apos;express&apos;),
+    app = express(),
+    session = require(&apos;express-session&apos;);
+app.use(session({
+    secret: &apos;2C44-4D44-WppQ38S&apos;,
+    resave: true,
+    saveUninitialized: true
+}));
+</code></pre>
+<p>Aqu&#xED; se realiza la funci&#xF3;n del <strong>middleware</strong> autentificaci&#xF3;n y autorizaci&#xF3;n. El siguiente paso que realiza es mirar si el usuario es &quot;amy&quot; y si ella tiene permisos para verificarse. El valor para mirarlo esta hecho con el prop&#xF3;sito de ser una demostraci&#xF3;n, en una aplicaci&#xF3;n web de verdad obtendr&#xED;a la autentificaci&#xF3;n y la autorizaci&#xF3;n desde la sesi&#xF3;n y lo comparar&#xED;a con una database que se encontrar&#xED;a en el servidor.</p>
+<pre><code class="lang-jsx=">// Authentication and Authorization Middleware
+var auth = function(req, res, next) {
+  if (req.session &amp;&amp; req.session.user === &quot;amy&quot; &amp;&amp; req.session.admin)
+    return next();
+  else
+    return res.sendStatus(401);
+};
+</code></pre>
+<p>A continuaci&#xF3;n mostramos lo que ser&#xED;a el <a href="https://en.wikipedia.org/wiki/Query_string" target="_blank">Query String</a> del navegador para explicar los fragmentos de c&#xF3;digo:</p>
+<p><strong>localhost:3000/login?username=amy&amp;password=amyspassword</strong> ser&#xED;a la URL que guardar&#xED;a la autorizaci&#xF3;n y verificaci&#xF3;n del usuario en la sesi&#xF3;n. La sesi&#xF3;n ser&#xE1; diferente para cada usuario y &#xFA;nica para el mismo usuario usando diferentes navegadores. Por ejemplo, si el mismo usuario se ha logueado usando Chrome, y se quiere loguear con Firefox el usuario deber&#xE1; loguearse de nuevo en Firefox para obtener otra vez la protecci&#xF3;n adecuada. Una aplicaci&#xF3;n web real normalmente enviar&#xED;a la solicitud y pasar&#xED;a los datos por un formulario de env&#xED;o. Aqu&#xED; se ha hecho de forma que sirva para la demostraci&#xF3;n. La aplicaci&#xF3;n real mirar&#xED;a el usuario y su password en la database del servidor.</p>
+<pre><code class="lang-jsx=">// Login endpoint
+app.get(&apos;/login&apos;, function (req, res) {
+  if (!req.query.username || !req.query.password) {
+    res.send(&apos;login failed&apos;);    
+  } else if(req.query.username === &quot;amy&quot; || req.query.password === &quot;amyspassword&quot;) {
+    req.session.user = &quot;amy&quot;;
+    req.session.admin = true;
+    res.send(&quot;login success!&quot;);
+  }
+});
+</code></pre>
+<p>Aqu&#xED; se explica el punto de deslogueo utilizando el query string del navegador:</p>
+<p><strong>localhost:3000/logout</strong>, el deslogueo destruir&#xE1; la sesi&#xF3;n, es decir, borrar&#xE1; la identidad del usuario, por lo tanto si el usuario quiere volver a entrar deber&#xE1; loguearse de nuevo para obtener la seguridad proporcionada.</p>
+<pre><code class="lang-jsx=">// Logout endpoint
+app.get(&apos;/logout&apos;, function (req, res) {
+  req.session.destroy();
+  res.send(&quot;logout success!&quot;);
+});
+</code></pre>
+<p><strong>localhost:3000/content</strong>, es el query string que mostrar&#xED;a el contenido de la p&#xE1;gina web. La funci&#xF3;n de autorizaci&#xF3;n es pasada en el segundo par&#xE1;metro como un <strong>middleware</strong> antes de que se proceda a mostrar el contenido al usuario en cuesti&#xF3;n. Si la funci&#xF3;n de autorizaci&#xF3;n determina que el usuario no es v&#xE1;lido no se pasar&#xE1; a la tecera funci&#xF3;n que es la que muestra el contenido al usuario.</p>
+<pre><code class="lang-jsx=">// Get content endpoint
+app.get(&apos;/content&apos;, auth, function (req, res) {
+    res.send(&quot;You can only see this after you&apos;ve logged in.&quot;);
+});
+</code></pre>
+<p>Por &#xFA;ltimo dejar&#xED;amos la aplicaci&#xF3;n escuchando en el puerto <em>3000</em>.</p>
+<pre><code class="lang-jsx=">app.listen(3000);
+console.log(&quot;app running at http://localhost:3000&quot;);
+</code></pre>
 
                                 
                                 </section>
@@ -449,14 +542,10 @@ gulp.task(&apos;build&apos;, shell.task([
 
             
                 
-                <a href="markdowngitbook.html#markdown-y-gitbook" class="navigation navigation-prev " aria-label="Previous page: 5. MarkDown y GitBook">
+                <a href="cookies.html#eliminar-la-cookie-existente" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Eliminar la cookie existente">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
-                
-                <a href="pandoc.html#pandoc" class="navigation navigation-next " aria-label="Next page: 7. Pandoc">
-                    <i class="fa fa-angle-right"></i>
-                </a>
                 
             
         
@@ -465,7 +554,7 @@ gulp.task(&apos;build&apos;, shell.task([
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"6. Gh-Pages y Gulpfile","level":"1.7","depth":1,"next":{"title":"7. Pandoc","level":"1.8","depth":1,"anchor":"#pandoc","path":"pandoc.md","ref":"pandoc.md#pandoc","articles":[]},"previous":{"title":"5. MarkDown y GitBook","level":"1.6","depth":1,"anchor":"#markdown-y-gitbook","path":"markdowngitbook.md","ref":"markdowngitbook.md#markdown-y-gitbook","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"ghpagesgulpfile.md","mtime":"2017-02-28T18:26:42.918Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-03-12T04:41:23.875Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"11. Sessions en ExpressJS","level":"1.12","depth":1,"previous":{"title":"Eliminar la cookie existente","level":"1.11.4","depth":2,"anchor":"#eliminar-la-cookie-existente","path":"cookies.md","ref":"cookies.md#eliminar-la-cookie-existente","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"sessionsexpress.md","mtime":"2017-03-12T04:24:52.528Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-03-12T04:41:23.875Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>
