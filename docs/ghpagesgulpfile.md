@@ -5,7 +5,7 @@ Gulp es un conjunto de herramientas que nos ayudan a automatizar tareas en nuest
 
 Para realizar el despliegue de un libro en Github, lo que hay que  hacer es tener disponible una rama Gh-Pages para mostrar el libro en la Github Pages. En esta práctica tal y como se nos indica utilizaremos un gulpfile con la finalidad de automatizar el despliegue en gh-pages.
 
-```
+```js
 gulp.task('deploy', shell.task([
   'npm run deploy'
 ]));
