@@ -12,7 +12,7 @@ npm install cookie-parser
 
 Hay que importar **_cookie-parser_** en la aplicación:
 
-```jsx=
+```js
 var express = require('express');
 var cookieParser = require('cookie-parser');
 
@@ -25,7 +25,7 @@ app.use(cookieParser());
 Cookie-Parser analiza la cabecera de la Cookie y establece **_req.cookie_** con un objeto introducido por los nombres de las cookies. Para establecer una nueva cookie hay que definir una nueva ruta en la aplicación de express:
 
 
-```jsx=
+```js
 app.get('/cookie',function(req, res){
      res.cookie(cookie_name , 'cookie_value').send('Cookie is set');
 });
@@ -35,7 +35,7 @@ Para comprobar que la cookie se ha establecido, hay que ir a la consola del nave
 
 El navegador envía la cookie al servidor, cada vez que se solicita esa página. Para obtener una cookie que un navegador podría estar enviando al servidor adjuntándolo a la cabecera de la petición:
 
-```jsx=
+```js
 app.get('/', function(req, res) {
   console.log("Cookies :  ", req.cookies);
 });
@@ -45,7 +45,7 @@ app.get('/', function(req, res) {
 
 Para establecer dicha cookie basta con lo siguiente:
 
-```jsx=
+```js
 res.cookie(name, 'value', {expire : new Date() + 9999});
 ```
 
@@ -53,7 +53,7 @@ Se pueden establecer opciones adicionales para cookies pasando un objeto como ar
 
 Otra forma de establcer la expiración de la cookie es usar la propiedad opcional **_magAge_**.
 
-```jsx=
+```js
 res.cookie(name, 'value', {masAge : 9999});
 ```
 
@@ -61,7 +61,7 @@ res.cookie(name, 'value', {masAge : 9999});
 
 Una cookie existente se puede eliminar fácilmente usando el método **_clearCookie_** que acepta el nombre de la cookie que se quiere eliminar.
 
-```jsx=
+```js
 app.get('/clearcookie', function(req,res){
      clearCookie('cookie_name');
      res.send('Cookie deleted');
