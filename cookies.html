@@ -413,37 +413,37 @@
 </code></pre>
 <h2 id="usar-cookie-parser">Usar Cookie-Parser</h2>
 <p>Hay que importar <strong><em>cookie-parser</em></strong> en la aplicaci&#xF3;n:</p>
-<pre><code class="lang-jsx=">var express = require(&apos;express&apos;);
-var cookieParser = require(&apos;cookie-parser&apos;);
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;express&apos;</span>);
+<span class="hljs-keyword">var</span> cookieParser = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;cookie-parser&apos;</span>);
 
-var app = express();
+<span class="hljs-keyword">var</span> app = express();
 app.use(cookieParser());
 </code></pre>
 <h2 id="sintaxis">Sintaxis</h2>
 <p>Cookie-Parser analiza la cabecera de la Cookie y establece <strong><em>req.cookie</em></strong> con un objeto introducido por los nombres de las cookies. Para establecer una nueva cookie hay que definir una nueva ruta en la aplicaci&#xF3;n de express:</p>
-<pre><code class="lang-jsx=">app.get(&apos;/cookie&apos;,function(req, res){
-     res.cookie(cookie_name , &apos;cookie_value&apos;).send(&apos;Cookie is set&apos;);
+<pre><code class="lang-js">app.get(<span class="hljs-string">&apos;/cookie&apos;</span>,<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>)</span>{
+     res.cookie(cookie_name , <span class="hljs-string">&apos;cookie_value&apos;</span>).send(<span class="hljs-string">&apos;Cookie is set&apos;</span>);
 });
 </code></pre>
 <p>Para comprobar que la cookie se ha establecido, hay que ir a la consola del navegador y escribir <strong><em>document.cookie</em></strong>.</p>
 <p>El navegador env&#xED;a la cookie al servidor, cada vez que se solicita esa p&#xE1;gina. Para obtener una cookie que un navegador podr&#xED;a estar enviando al servidor adjunt&#xE1;ndolo a la cabecera de la petici&#xF3;n:</p>
-<pre><code class="lang-jsx=">app.get(&apos;/&apos;, function(req, res) {
-  console.log(&quot;Cookies :  &quot;, req.cookies);
+<pre><code class="lang-js">app.get(<span class="hljs-string">&apos;/&apos;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>) </span>{
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;Cookies :  &quot;</span>, req.cookies);
 });
 </code></pre>
 <h2 id="establecer-la-cookie-de-tiempo-de-espera">Establecer la Cookie de tiempo de espera</h2>
 <p>Para establecer dicha cookie basta con lo siguiente:</p>
-<pre><code class="lang-jsx=">res.cookie(name, &apos;value&apos;, {expire : new Date() + 9999});
+<pre><code class="lang-js">res.cookie(name, <span class="hljs-string">&apos;value&apos;</span>, {expire : <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>() + <span class="hljs-number">9999</span>});
 </code></pre>
 <p>Se pueden establecer opciones adicionales para cookies pasando un objeto como argumento, el cual lleva los ajustes adicionales para cookies. As&#xED; que para establecer el tiempo de expiraci&#xF3;n de la cookie, se puede enviar un objeto con la propiedad de expiraci&#xF3;n, que contiene el tiempo en milisegundos.</p>
 <p>Otra forma de establcer la expiraci&#xF3;n de la cookie es usar la propiedad opcional <strong><em>magAge</em></strong>.</p>
-<pre><code class="lang-jsx=">res.cookie(name, &apos;value&apos;, {masAge : 9999});
+<pre><code class="lang-js">res.cookie(name, <span class="hljs-string">&apos;value&apos;</span>, {masAge : <span class="hljs-number">9999</span>});
 </code></pre>
 <h2 id="eliminar-la-cookie-existente">Eliminar la cookie existente</h2>
 <p>Una cookie existente se puede eliminar f&#xE1;cilmente usando el m&#xE9;todo <strong><em>clearCookie</em></strong> que acepta el nombre de la cookie que se quiere eliminar.</p>
-<pre><code class="lang-jsx=">app.get(&apos;/clearcookie&apos;, function(req,res){
-     clearCookie(&apos;cookie_name&apos;);
-     res.send(&apos;Cookie deleted&apos;);
+<pre><code class="lang-js">app.get(<span class="hljs-string">&apos;/clearcookie&apos;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">req,res</span>)</span>{
+     clearCookie(<span class="hljs-string">&apos;cookie_name&apos;</span>);
+     res.send(<span class="hljs-string">&apos;Cookie deleted&apos;</span>);
 });
 </code></pre>
 <p>Una vez hecho esto se puede comprobar en la consola del navegador que dicha cookie se ha eliminado.</p>
@@ -490,7 +490,7 @@ app.use(cookieParser());
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"10. Cookies","level":"1.11","depth":1,"next":{"title":"Usar Cookie-Parser","level":"1.11.1","depth":2,"anchor":"#usar-cookie-parser","path":"cookies.md","ref":"cookies.md#usar-cookie-parser","articles":[]},"previous":{"title":"Routing API Documentation","level":"1.10.4","depth":2,"anchor":"#routing-api-documentation","path":"rutasexpressjs.md","ref":"rutasexpressjs.md#routing-api-documentation","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"cookies.md","mtime":"2017-03-12T04:15:52.909Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-03-12T04:41:23.875Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"10. Cookies","level":"1.11","depth":1,"next":{"title":"Usar Cookie-Parser","level":"1.11.1","depth":2,"anchor":"#usar-cookie-parser","path":"cookies.md","ref":"cookies.md#usar-cookie-parser","articles":[]},"previous":{"title":"Routing API Documentation","level":"1.10.4","depth":2,"anchor":"#routing-api-documentation","path":"rutasexpressjs.md","ref":"rutasexpressjs.md#routing-api-documentation","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"cookies.md","mtime":"2017-03-12T04:47:46.155Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-03-12T04:50:40.842Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>
