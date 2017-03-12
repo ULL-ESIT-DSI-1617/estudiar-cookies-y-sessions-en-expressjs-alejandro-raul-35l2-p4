@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>3. GitHub · GitBook</title>
+        <title>10. Cookies · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.2">
@@ -57,10 +57,10 @@
     <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="atom.html" />
+    <link rel="next" href="cookies.html" />
     
     
-    <link rel="prev" href="git.html" />
+    <link rel="prev" href="rutasexpressjs.html" />
     
 
     </head>
@@ -378,7 +378,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="." >3. GitHub</a>
+        <a href="." >10. Cookies</a>
     </h1>
 </div>
 
@@ -393,23 +393,47 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="github">GitHub</h1>
-<p>En este capitulo debemos en primer lugar crearnos una cuenta en GitHub si no lo hemos hecho ya, aunque en nuestro caso la cuenta ya estaba creada por lo que solo tuvimos que loguearnos con nuestras respectivas cuentas.</p>
-<p><img src="images/login-github.JPG" alt="logueando en github"></p>
-<p>El siguiente paso fue instalar GitHub Desktop si utilizas Mac o Windows ya que te facilita el uso de GitHub, aqu&#xED; exponemos un ejemplo de su uso.</p>
-<p><img src="images/github-desktop.JPG" alt="usando github desktop"></p>
-<h3 id="issues">Issues</h3>
-<p>Dentro de nuestro repositorio, tenemos una pesta&#xF1;a referente a las Issues, con las que se ir&#xE1;n a&#xF1;adiendo tareas, solicitudes de documentaci&#xF3;n en espec&#xED;fico y todo tipo de solicitud al equipo de desarrollo. A cada issue se le puede asignar una etiqueta para organizarlos de mejor manera, o asignar el issue a una persona en concreta entre otras cosas.</p>
-<p><img src="images/issues.PNG" alt="issues"></p>
-<h3 id="gh-pages">Gh-Pages</h3>
-<p>Las &quot;gh-pages&quot; son usadas para publicar en GitHub tus trabajos y que puedan ser vistos, como puede ser una web o un blog.</p>
-<h3 id="projects">Projects</h3>
-<p>Dentro del repositorio usamos la pesta&#xF1;a &quot;Proyectos&quot; para realimentar el repositorio a medida que vamos realizando las issues, es decir, vamos poniendo las tareas en pendientes, en proceso o completadas seg&#xFA;n se vaya avanzando, para as&#xED; tener constancia de las tareas que se van realizando.</p>
-<p><img src="images/projects.JPG" alt="projects"></p>
-<h3 id="hub">Hub</h3>
-<p>Hub es utilizado para potenciar los comandos de  Git y que funcionen mejor en GitHub. Para instalarlo en Windows debes escoger la opci&#xF3;n que dice &quot;Standalone&quot;, al acceder saldr&#xE1;n varias opciones en las que elegir&#xE1;s la que se adapte a tu sistema operativo de 32 o 64 bits. Despu&#xE9;s de descargar el archivo deber&#xE1;s descomprimir el .rar dentro de la carpeta de instalaci&#xF3;n de Git, tras esto deber&#xED;as poder escribir en la l&#xED;nea de comandos:</p>
-<pre><code>hub version
-</code></pre><p><img src="images/hub.JPG" alt="hub"></p>
+                                <h1 id="cookies">Cookies</h1>
+<p>Las Cookies son peque&#xF1;as cantidades de datos que se env&#xED;an desde el sitio web y son almacenadas en el navegador web del usuario mientras el usuario est&#xE1; navegando en ese sitio web. Cada vez que el usuario carga dicha p&#xE1;gina de nuevo, el navegador env&#xED;a los datos que almacen&#xF3; a la p&#xE1;gina web o servidor, para distinguir la actividad previa del usuario.</p>
+<p>Lo primero que habr&#xED;a que hacer para utilizar las cookies es instalar un middleware cookie-parser mediante <strong><em>npm</em></strong>.</p>
+<pre><code class="lang-js">npm install cookie-parser
+</code></pre>
+<h2 id="usar-cookie-parser">Usar Cookie-Parser</h2>
+<p>Hay que importar <strong><em>cookie-parser</em></strong> en la aplicaci&#xF3;n:</p>
+<pre><code class="lang-jsx=">var express = require(&apos;express&apos;);
+var cookieParser = require(&apos;cookie-parser&apos;);
+
+var app = express();
+app.use(cookieParser());
+</code></pre>
+<h2 id="sintaxis">Sintaxis</h2>
+<p>Cookie-Parser analiza la cabecera de la Cookie y establece <strong><em>req.cookie</em></strong> con un objeto introducido por los nombres de las cookies. Para establecer una nueva cookie hay que definir una nueva ruta en la aplicaci&#xF3;n de express:</p>
+<pre><code class="lang-jsx=">app.get(&apos;/cookie&apos;,function(req, res){
+     res.cookie(cookie_name , &apos;cookie_value&apos;).send(&apos;Cookie is set&apos;);
+});
+</code></pre>
+<p>Para comprobar que la cookie se ha establecido, hay que ir a la consola del navegador y escribir <strong><em>document.cookie</em></strong>.</p>
+<p>El navegador env&#xED;a la cookie al servidor, cada vez que se solicita esa p&#xE1;gina. Para obtener una cookie que un navegador podr&#xED;a estar enviando al servidor adjunt&#xE1;ndolo a la cabecera de la petici&#xF3;n:</p>
+<pre><code class="lang-jsx=">app.get(&apos;/&apos;, function(req, res) {
+  console.log(&quot;Cookies :  &quot;, req.cookies);
+});
+</code></pre>
+<h2 id="establecer-la-cookie-de-tiempo-de-espera">Establecer la Cookie de tiempo de espera</h2>
+<p>Para establecer dicha cookie basta con lo siguiente:</p>
+<pre><code class="lang-jsx=">res.cookie(name, &apos;value&apos;, {expire : new Date() + 9999});
+</code></pre>
+<p>Se pueden establecer opciones adicionales para cookies pasando un objeto como argumento, el cual lleva los ajustes adicionales para cookies. As&#xED; que para establecer el tiempo de expiraci&#xF3;n de la cookie, se puede enviar un objeto con la propiedad de expiraci&#xF3;n, que contiene el tiempo en milisegundos.</p>
+<p>Otra forma de establcer la expiraci&#xF3;n de la cookie es usar la propiedad opcional <strong><em>magAge</em></strong>.</p>
+<pre><code class="lang-jsx=">res.cookie(name, &apos;value&apos;, {masAge : 9999});
+</code></pre>
+<h2 id="eliminar-la-cookie-existente">Eliminar la cookie existente</h2>
+<p>Una cookie existente se puede eliminar f&#xE1;cilmente usando el m&#xE9;todo <strong><em>clearCookie</em></strong> que acepta el nombre de la cookie que se quiere eliminar.</p>
+<pre><code class="lang-jsx=">app.get(&apos;/clearcookie&apos;, function(req,res){
+     clearCookie(&apos;cookie_name&apos;);
+     res.send(&apos;Cookie deleted&apos;);
+});
+</code></pre>
+<p>Una vez hecho esto se puede comprobar en la consola del navegador que dicha cookie se ha eliminado.</p>
 
                                 
                                 </section>
@@ -437,12 +461,12 @@
 
             
                 
-                <a href="git.html#git" class="navigation navigation-prev " aria-label="Previous page: 2. Git">
+                <a href="rutasexpressjs.html#routing-api-documentation" class="navigation navigation-prev " aria-label="Previous page: Routing API Documentation">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="atom.html#atom" class="navigation navigation-next " aria-label="Next page: 4. Atom">
+                <a href="cookies.html#usar-cookie-parser" class="navigation navigation-next " aria-label="Next page: Usar Cookie-Parser">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -453,7 +477,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"3. GitHub","level":"1.4","depth":1,"next":{"title":"4. Atom","level":"1.5","depth":1,"anchor":"#atom","path":"atom.md","ref":"atom.md#atom","articles":[]},"previous":{"title":"2. Git","level":"1.3","depth":1,"anchor":"#git","path":"git.md","ref":"git.md#git","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"github.md","mtime":"2017-02-27T15:27:35.990Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-03-12T04:36:35.754Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"10. Cookies","level":"1.11","depth":1,"next":{"title":"Usar Cookie-Parser","level":"1.11.1","depth":2,"anchor":"#usar-cookie-parser","path":"cookies.md","ref":"cookies.md#usar-cookie-parser","articles":[]},"previous":{"title":"Routing API Documentation","level":"1.10.4","depth":2,"anchor":"#routing-api-documentation","path":"rutasexpressjs.md","ref":"rutasexpressjs.md#routing-api-documentation","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"cookies.md","mtime":"2017-03-12T04:15:52.909Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-03-12T04:36:35.754Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>
