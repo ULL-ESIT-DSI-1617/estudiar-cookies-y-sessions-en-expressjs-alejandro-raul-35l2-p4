@@ -5,8 +5,8 @@ En esta práctica hay que estudiar las Cookies y las Sessions siguiendo los apun
 
 - [Enlace a la asignatura](https://campusvirtual.ull.es/1617/course/view.php?id=1136)
 - [Descripción de la tarea](https://casianorodriguezleon.gitbooks.io/ull-esit-1617/content/practicas/practicalearningcookies.html)
-- [Libro en Gh-Pages]()
-- [Libro en GitBook]()
+- [Libro en Gh-Pages](https://ull-esit-dsi-1617.github.io/estudiar-cookies-y-sessions-en-expressjs-alejandro-raul-35l2-p4/)
+- [Libro en GitBook](https://alu0100769579.gitbooks.io/estudiar-cookies-y-sesiones-en-expressjs/)
 
 ### IASS
 
