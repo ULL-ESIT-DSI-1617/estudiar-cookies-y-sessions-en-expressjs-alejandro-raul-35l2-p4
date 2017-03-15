@@ -16,3 +16,9 @@ gulp.task('serve', function(){
 gulp.task('deploy', function(){
   exec('npm run deploy');
 });
+
+
+// Se ejecuta desde el iass
+gulp.task('iass', function(){
+  exec('git pull origin master && npm run build');
+});
