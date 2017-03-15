@@ -10,8 +10,8 @@ En esta práctica hay que estudiar las Cookies y las Sessions siguiendo los apun
 
 ### IASS
 
-- [Libro en IASS]() - Alejandro
-- [Libro en IASS]() - Raul
+- [Libro en IASS](http://10.6.129.178:8083/) - Alejandro
+- [Libro en IASS](http://10.6.129.214:8083/) - Raul
 
 ### Autores
 
